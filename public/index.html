@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEXORA — Your Digital Content Universe 🚀 | 150K+ Reels Digital Store</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Get instant access to 150K+ premium vertical reels, social media content bundles, faceless marketing ebooks, and creator templates in 30+ niches on NEXORA.">
+  <meta name="keywords" content="reels bundle, 150K reels bundle, Instagram reels bundle, travel reels bundle, motivational reels bundle, money reels bundle, luxury reels bundle, AI reels bundle, fitness reels bundle, faceless content bundle, copyright-free reels">
+  <meta name="author" content="NEXORA">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nexora.in/">
+  <meta property="og:title" content="NEXORA — Your Digital Content Universe 🚀">
+  <meta property="og:description" content="150K+ Premium Reels across 30+ Niches. Fast access, secure payments, and faceless marketing resources.">
+  <meta property="og:image" content="/images/og-image.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Top Announcement Promo Banner -->
+  <div id="promo-banner" style="background: var(--gradient-rainbow); color: #fff; padding: 0.5rem 1rem; text-align: center; font-size: 0.85rem; font-weight: 800; letter-spacing: 0.5px; z-index: 1001; position: relative;">
+    🔥 MEGA DISCOUNT OFFER ACTIVE! GET 150K+ REELS FOR JUST ₹999!
+  </div>
+
+  <!-- Sticky Responsive Header Navigation -->
+  <header>
+    <div class="nav-container">
+      <a href="/" class="logo">
+        <span>✨</span> NEXORA
+      </a>
+      
+      <nav>
+        <ul class="nav-links" id="nav-links">
+          <li><a href="#home">🏠 Home</a></li>
+          <li><a href="#reels">🎬 Reels</a></li>
+          <li><a href="#mega-bundle">📦 Mega Bundle</a></li>
+          <li><a href="#categories">🎨 Categories</a></li>
+          <li><a href="#offers">🎁 Offers</a></li>
+          <li><a href="#ebooks">📚 Ebooks</a></li>
+          <li><a href="#faq">❓ FAQ</a></li>
+          <li><a href="#" onclick="orderOnWhatsApp('mega-bundle')">💬 WhatsApp</a></li>
+        </ul>
+      </nav>
+
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <!-- Cart Trigger -->
+        <a href="#" class="cart-toggle" style="position: relative; font-size: 1.4rem; padding: 0.5rem;" aria-label="View Cart">
+          🛒 <span class="cart-count" style="position: absolute; top: 0; right: 0; background: var(--pink); color: #fff; font-size: 0.75rem; font-weight: 800; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; border: 2px solid #fff;">0</span>
+        </a>
+        <button class="header-btn" onclick="addToCartBySlug('mega-bundle')">🔥 GET MEGA BUNDLE</button>
+        <button class="hamburger" id="hamburger-btn" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <!-- Floating Decorative Elements -->
+    <div class="shape shape-1">⭐</div>
+    <div class="shape shape-2">✨</div>
+    <div class="shape shape-3">💫</div>
+    
+    <div class="hero-content">
+      <div class="badge-headline">✨ YOUR DIGITAL CONTENT UNIVERSE 🚀</div>
+      <h1>🚀 150K+ REELS. ONE NEXORA CONTENT UNIVERSE.</h1>
+      <p class="hero-sub">
+        Travel, motivation, money, luxury, AI, fitness, cars, nature, satisfying videos and dozens of other content categories — all in one powerful digital library.
+      </p>
+      
+      <div class="hero-ctas">
+        <a href="#reels" class="btn-primary">🔥 EXPLORE REELS</a>
+        <button class="btn-secondary" onclick="addToCartBySlug('mega-bundle')">📦 GET 150K+ MEGA BUNDLE</button>
+      </div>
+      
+      <!-- Stats Grid -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-val">150K+</div>
+          <div class="stat-label">Reels</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">30+</div>
+          <div class="stat-label">Niches</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">4K</div>
+          <div class="stat-label">Quality</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">READY</div>
+          <div class="stat-label">Creator Ready</div>
+        </div>
+      </div>
+
+      <div class="disclaimer">
+        Digital products • Review individual license/usage rights before commercial use
+      </div>
+    </div>
+
+    <!-- Collages Grid of Previews -->
+    <div class="hero-collage">
+      <div class="collage-item">
+        <div style="font-size: 3rem; display: flex; align-items: center; justify-content: center; height: 100%; background: var(--gradient-purple-pink);">🌍</div>
+        <div class="collage-overlay">Travel Reels</div>
+      </div>
+      <div class="collage-item">
+        <div style="font-size: 3rem; display: flex; align-items: center; justify-content: center; height: 100%; background: var(--gradient-blue-purple);">💰</div>
+        <div class="collage-overlay">Motivation Reels</div>
+      </div>
+      <div class="collage-item">
+        <div style="font-size: 3rem; display: flex; align-items: center; justify-content: center; height: 100%; background: var(--gradient-orange-pink);">💎</div>
+        <div class="collage-overlay">Luxury Reels</div>
+      </div>
+      <div class="collage-item">
+        <div style="font-size: 3rem; display: flex; align-items: center; justify-content: center; height: 100%; background: var(--gradient-yellow-orange);">🤖</div>
+        <div class="collage-overlay">AI Tech Reels</div>
+      </div>
+      <div class="collage-item">
+        <div style="font-size: 3rem; display: flex; align-items: center; justify-content: center; height: 100%; background: var(--gradient-green-blue);">💪</div>
+        <div class="collage-overlay">Fitness Reels</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mega Bundle Section -->
+  <section class="mega-bundle-sec" id="mega-bundle">
+    <div class="container" id="mega-bundle-container">
+      <!-- Dynamically filled by app.js -->
+    </div>
+  </section>
+
+  <!-- Category Grid Explorer -->
+  <section class="categories-grid-sec" id="categories">
+    <div class="section-header">
+      <h2 class="sec-title" style="font-size: 2.5rem;">🎨 BROWSE BY CATEGORY</h2>
+      <p class="sec-sub">Click a category folder to inspect our high-quality reels catalog</p>
+    </div>
+    <div class="categories-grid">
+      <div class="category-card" onclick="filterByCategory('Reels', this)">
+        <span class="cat-icon">🌍</span>
+        <span>Travel</span>
+      </div>
+      <div class="category-card" onclick="filterByCategory('Reels', this)">
+        <span class="cat-icon">💰</span>
+        <span>Money</span>
+      </div>
+      <div class="category-card" onclick="filterByCategory('Reels', this)">
+        <span class="cat-icon">🔥</span>
+        <span>Motivation</span>
+      </div>
+      <div class="category-card" onclick="filterByCategory('Reels', this)">
+        <span class="cat-icon">💎</span>
+        <span>Luxury</span>
+      </div>
+      <div class="category-card" onclick="filterByCategory('Reels', this)">
+        <span class="cat-icon">🤖</span>
+        <span>AI</span>
+      </div>
+      <div class="category-card" onclick="filterByCategory('Reels', this)">
+        <span class="cat-icon">💪</span>
+        <span>Fitness</span>
+      </div>
+      <div class="category-card" onclick="filterByCategory('Reels', this)">
+        <span class="cat-icon">🚗</span>
+        <span>Cars</span>
+      </div>
+      <div class="category-card" onclick="filterByCategory('Reels', this)">
+        <span class="cat-icon">🌿</span>
+        <span>Nature</span>
+      </div>
+      <div class="category-card" onclick="filterByCategory('Reels', this)">
+        <span class="cat-icon">🎨</span>
+        <span>Art</span>
+      </div>
+      <div class="category-card" onclick="filterByCategory('Reels', this)">
+        <span class="cat-icon">😂</span>
+        <span>Funny</span>
+      </div>
+      <div class="category-card" onclick="filterByCategory('Reels', this)">
+        <span class="cat-icon">🏋️</span>
+        <span>Gym</span>
+      </div>
+      <div class="category-card" onclick="filterByCategory('Reels', this)">
+        <span class="cat-icon">📱</span>
+        <span>Gadgets</span>
+      </div>
+      <div class="category-card" onclick="filterByCategory('Reels', this)">
+        <span class="cat-icon">🎬</span>
+        <span>Animation</span>
+      </div>
+      <div class="category-card" onclick="filterByCategory('Reels', this)">
+        <span class="cat-icon">💼</span>
+        <span>Business</span>
+      </div>
+      <div class="category-card" onclick="filterByCategory('Reels', this)">
+        <span class="cat-icon">📚</span>
+        <span>Study</span>
+      </div>
+      <div class="category-card" onclick="filterByCategory('Reels', this)">
+        <span class="cat-icon">❤️</span>
+        <span>Emotional</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Creator Packages Sections -->
+  <section class="packages-section" id="offers">
+    <div class="section-header">
+      <h2 class="sec-title" style="font-size: 2.5rem;">🎉 SPECIAL CREATOR PACKAGES</h2>
+      <p class="sec-sub">Select a multi-niche pack for best pricing value and custom checkout selections</p>
+    </div>
+    <div class="packages-grid" id="packages-container">
+      <!-- Filled dynamically by app.js -->
+    </div>
+  </section>
+
+  <!-- Reels Collection Section -->
+  <section class="reels-section" id="reels">
+    <div class="section-header">
+      <h2 class="sec-title">🎬 INDIVIDUAL REELS BUNDLES</h2>
+      <p class="sec-sub">Unlock targeted viral video collections across specific creator niches</p>
+      
+      <!-- Category slider for horizontal swipe on mobile -->
+      <div class="category-slider" id="category-slider">
+        <!-- Filled dynamically -->
+      </div>
+    </div>
+
+    <div class="reels-grid" id="reels-grid">
+      <!-- Filled dynamically by app.js -->
+    </div>
+  </section>
+
+  <!-- Ebooks & Resources Section -->
+  <section class="reels-section" id="ebooks" style="background: radial-gradient(circle at 10% 80%, rgba(139, 92, 246, 0.04) 0%, rgba(236, 72, 153, 0.02) 80%);">
+    <div class="section-header">
+      <h2 class="sec-title">🎁 BONUS CREATOR RESOURCES</h2>
+      <p class="sec-sub">Faceless Instagram guides, planner boards, and marketing strategies</p>
+    </div>
+    <div class="reels-grid" id="ebooks-grid">
+      <!-- Filled dynamically by app.js -->
+    </div>
+    
+    <div style="text-align: center; margin-top: 3rem;">
+      <a href="#ebooks" class="btn-secondary" style="display: inline-flex;">VIEW ALL CREATOR RESOURCES →</a>
+    </div>
+  </section>
+
+  <!-- Why NEXORA -->
+  <section class="why-section">
+    <div class="section-header">
+      <h2 class="sec-title">🚀 WHY CREATORS CHOOSE NEXORA?</h2>
+      <p class="sec-sub">Quality vertical assets optimized for maximum organic growth reach</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">⚡</div>
+        <h3 class="why-title">FAST ACCESS</h3>
+        <p class="why-desc">Get instant download links to Google Drive folder locations immediately after successful payment verification.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🎬</div>
+        <h3 class="why-title">HUGE CONTENT LIBRARY</h3>
+        <p class="why-desc">Access thousands of vertical clips ready to download. Perfect for YouTube Shorts, Reels, Facebook, and TikTok.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🌈</div>
+        <h3 class="why-title">MANY CATEGORIES</h3>
+        <p class="why-desc">Find matching high-quality content matching almost every creator style, target niche, and industry.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📱</div>
+        <h3 class="why-title">MOBILE FRIENDLY</h3>
+        <p class="why-desc">Browse, check out, submit payments, and download reels directly from your iOS/Android smartphone device.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🎁</div>
+        <h3 class="why-title">CREATOR RESOURCES</h3>
+        <p class="why-desc">Faceless marketing ebooks, Canva guides, planners, and viral hooks are included alongside the reels database.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🔐</div>
+        <h3 class="why-title">SECURE PAYMENT</h3>
+        <p class="why-desc">Pay safely with secure UPI QR codes or UPI IDs. Double payment protection keeps orders verified and transparent.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="how-section" style="background-color: var(--light-bg); border-top: 1px solid rgba(139, 92, 246, 0.08);">
+    <div class="section-header">
+      <h2 class="sec-title">🎬 HOW IT WORKS?</h2>
+      <p class="sec-sub">Get your files in 3 quick, simple steps</p>
+    </div>
+    <div class="how-grid">
+      <div class="how-card">
+        <div class="how-step">01</div>
+        <h3 class="how-title">🎯 CHOOSE</h3>
+        <p class="how-desc">Pick your favorite individual bundle, creator package, or select the complete 150K+ Mega Bundle.</p>
+      </div>
+      <div class="how-card">
+        <div class="how-step">02</div>
+        <h3 class="how-title">💳 PAY</h3>
+        <p class="how-desc">Pay using secure UPI QR Code or copy/paste the official UPI ID during our mobile-friendly checkout process.</p>
+      </div>
+      <div class="how-card">
+        <div class="how-step">03</div>
+        <h3 class="how-title">🎉 DOWNLOAD</h3>
+        <p class="how-desc">After payment UTR/Transaction number verification, receive instant access to your purchased digital files.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="reviews-section">
+    <div class="section-header">
+      <h2 class="sec-title">❤️ CREATORS LOVE NEXORA</h2>
+      <p class="sec-sub">See verified success ratings shared by our active creator community</p>
+    </div>
+    
+    <div class="reviews-grid" id="reviews-container">
+      <!-- Dynamically loaded APPROVED reviews -->
+    </div>
+
+    <!-- Submit a Review Form -->
+    <div class="review-form-container">
+      <h3>✍️ Submit Your Creator Feedback</h3>
+      <form id="review-submit-form">
+        <div class="form-group">
+          <label for="review-name">Your Full Name:</label>
+          <input type="text" id="review-name" required placeholder="e.g. Rahul Verma">
+        </div>
+        <div class="form-group">
+          <label for="review-rating">Select Rating Stars:</label>
+          <select id="review-rating" required>
+            <option value="5">⭐⭐⭐⭐⭐ (5/5)</option>
+            <option value="4">⭐⭐⭐⭐ (4/5)</option>
+            <option value="3">⭐⭐⭐ (3/5)</option>
+            <option value="2">⭐⭐ (2/5)</option>
+            <option value="1">⭐ (1/5)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="review-text">Review / Feedback Description:</label>
+          <textarea id="review-text" rows="4" required placeholder="Write your genuine experience with NEXORA bundles..."></textarea>
+        </div>
+        <button type="submit" class="btn-submit">🚀 SUBMIT VERIFIED FEEDBACK</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Accordion FAQ -->
+  <section class="faq-section" id="faq">
+    <div class="section-header">
+      <h2 class="sec-title">❓ FREQUENTLY ASKED QUESTIONS</h2>
+      <p class="sec-sub">Everything you need to know about our reels store and payment flow</p>
+    </div>
+    <div class="faq-container">
+      <div class="faq-item">
+        <div class="faq-question">What do I receive after purchasing?</div>
+        <div class="faq-answer">
+          You will receive immediate download access links to secure Google Drive folders containing the reels. All video folders are organized cleanly by categories, making it easy to download files directly onto your device.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">How does the UPI payment work?</div>
+        <div class="faq-answer">
+          During checkout, the system generates a dynamic payment QR code with the exact cart amount and order ID. You can scan this QR code with any UPI app (PhonePe, GPay, Paytm) or copy our official UPI ID to make the payment. After paying, simply enter the 12-digit transaction ID / UTR number to submit your order for instant verification.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">What is the NEXORA UPI ID?</div>
+        <div class="faq-answer">
+          Our official and verified merchant UPI ID is: <strong style="color:var(--purple);">9794142912@fam</strong>. Always ensure you are sending the exact amount matching your invoice to this address.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">What is the NEXORA WhatsApp number?</div>
+        <div class="faq-answer">
+          You can reach our dedicated customer support team on WhatsApp at: <strong>979414912</strong>. We are available 24/7 to answer custom queries or provide verification support.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">How do I download my bundle?</div>
+        <div class="faq-answer">
+          Once your transaction UTR details are submitted, the admin panel reviews the payment. Upon approval (usually within minutes), you can access the download links directly on the order confirmation screen or via the link sent to your contact details.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Are the reels copyright-free?</div>
+        <div class="faq-answer">
+          While we compile high-quality reels, creators must review individual license permissions and usage rights before publishing them for commercial branding purposes.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Can I use the reels commercially?</div>
+        <div class="faq-answer">
+          The reels are ideal for organic page growth, faceless theme pages, and standard creator accounts. For heavy commercial use (corporate branding, running ads), please double-check rights or add original voiceovers/edits.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Can I use them on Instagram, YouTube Shorts, TikTok and Facebook?</div>
+        <div class="faq-answer">
+          Yes! All vertical files are formatted in the standard 9:16 aspect ratio, making them fully compatible with Instagram Reels, YouTube Shorts, TikTok, Facebook Reels, and Snapchat Spotlights.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">When will I receive access?</div>
+        <div class="faq-answer">
+          Verification is fast! Once you submit the correct UTR transaction ID, our automated systems check the details, and the access link is released.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">What is the refund policy?</div>
+        <div class="faq-answer">
+          Since these are downloadable digital products, we generally do not offer refunds once access details are provided. If you face any issues, contact our support team on WhatsApp and we will resolve it immediately.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Large Final CTA banner -->
+  <section class="cta-banner-section">
+    <div class="cta-banner-content">
+      <h2>🎉 READY TO UPGRADE YOUR CONTENT LIBRARY?</h2>
+      <p>150K+ reels. Dozens of categories. One NEXORA.</p>
+      
+      <div class="cta-banner-ctas">
+        <a href="#reels" class="btn-white">🚀 EXPLORE BUNDLES</a>
+        <button class="btn-white" onclick="addToCartBySlug('mega-bundle')">🔥 GET 150K+ MEGA — ₹999</button>
+        <button class="btn-white" style="background-color:#25D366; color:#fff;" onclick="orderOnWhatsApp('mega-bundle')">💚 ORDER ON WHATSAPP</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h2>✨ NEXORA</h2>
+        <p>Your Digital Content Universe 🚀</p>
+        <p>We provide high quality reels collections, faceless ebooks, Canva crash guides, and tools to help you grow your audience on autopilot.</p>
+      </div>
+      <div class="footer-col">
+        <h3>⚡ Quick Links</h3>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#reels">Reels Bundles</a></li>
+          <li><a href="#mega-bundle">Mega Bundle</a></li>
+          <li><a href="#offers">Creator Packages</a></li>
+          <li><a href="#ebooks">Ebooks</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>📚 Legal Rules</h3>
+        <ul>
+          <li><a href="#faq">Terms of Use</a></li>
+          <li><a href="#faq">Privacy Policy</a></li>
+          <li><a href="#faq">Refund Policy</a></li>
+          <li><a href="#faq">License & Usage Rights</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>💳 Official Contacts</h3>
+        <p style="font-size:0.9rem; margin-bottom:0.5rem;">UPI ID: <strong>9794142912@fam</strong></p>
+        <p style="font-size:0.9rem; margin-bottom:1.5rem;">WhatsApp: <strong>979414912</strong></p>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <div>© 2026 NEXORA ✨ All Rights Reserved.</div>
+      <div>Designed with 💖 for digital creators worldwide.</div>
+    </div>
+  </footer>
+
+  <!-- MOBILE STICKY BOTTOM BAR -->
+  <div class="mobile-sticky-footer">
+    <button class="mobile-sticky-btn buy" onclick="addToCartBySlug('mega-bundle')">🔥 GET MEGA BUNDLE</button>
+    <button class="mobile-sticky-btn whatsapp" onclick="orderOnWhatsApp('mega-bundle')">💚 CHAT ON WHATSAPP</button>
+  </div>
+
+  <!-- Cart Modal Drawer -->
+  <div class="modal-backdrop" id="modal-backdrop"></div>
+  
+  <div class="cart-modal" id="cart-modal">
+    <div class="cart-header">
+      <h2 style="font-family: var(--font-heading); font-weight:800; font-size:1.3rem;">🛒 Your Content Cart</h2>
+      <button class="cart-close" id="cart-close" aria-label="Close cart">✖</button>
+    </div>
+    <div class="cart-items-list" id="cart-items-list">
+      <!-- Cart Items list -->
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total-row">
+        <span>Grand Total:</span>
+        <span id="cart-total">₹0</span>
+      </div>
+      <button class="btn-primary" style="width: 100%; justify-content: center;" id="cart-checkout-btn">💳 PROCEED TO PAYMENT</button>
+    </div>
+  </div>
+
+  <!-- Creator Custom Selection Modal -->
+  <div class="bundle-picker-modal" id="bundle-picker">
+    <div class="bundle-picker-header">
+      <h2 style="font-family:var(--font-heading); font-weight:800; font-size:1.25rem;">🎁 Custom Bundle Picker</h2>
+      <button class="cart-close" onclick="closeBundlePicker()">✖</button>
+    </div>
+    <div class="bundle-picker-body">
+      <p id="picker-limit-text" style="font-weight:700; margin-bottom:1rem;"></p>
+      <div class="bundle-picker-list" id="bundle-picker-list">
+        <!-- List of bundles -->
+      </div>
+    </div>
+    <div class="bundle-picker-footer">
+      <span id="picker-count-text" style="font-weight:800; color:var(--purple);">0 Selected</span>
+      <button class="btn-primary" onclick="confirmBundleSelection()">✅ ADD PACK TO CART</button>
+    </div>
+  </div>
+
+  <!-- App Interactivity Logic -->
+  <script src="/js/app.js"></script>
+</body>
+</html>

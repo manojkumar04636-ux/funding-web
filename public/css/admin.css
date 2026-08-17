@@ -1,0 +1,179 @@
+/* Admin Console Dashboard Layout styling */
+
+.admin-layout {
+  display: flex;
+  min-height: calc(100vh - 75px);
+}
+
+.admin-sidebar {
+  width: 260px;
+  background-color: #fff;
+  border-right: 2px solid rgba(139, 92, 246, 0.1);
+  padding: 2rem 1rem;
+}
+
+.admin-menu {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.menu-item {
+  padding: 1rem 1.2rem;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #64748B;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s;
+}
+
+.menu-item:hover {
+  background-color: rgba(139, 92, 246, 0.05);
+  color: var(--purple);
+}
+
+.menu-item.active {
+  background: var(--gradient-purple-pink);
+  color: #fff;
+}
+
+.menu-item .badge {
+  background-color: #EF4444;
+  color: #fff;
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 99px;
+  font-weight: 800;
+}
+
+/* Main Panel area */
+.admin-main-content {
+  flex-grow: 1;
+  padding: 3rem;
+  background-color: var(--light-bg);
+  overflow-y: auto;
+}
+
+.admin-tab {
+  display: none;
+}
+
+.admin-tab.active {
+  display: block;
+}
+
+.tab-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+}
+
+/* Analytics Stats */
+.analytics-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.admin-card {
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 10px 25px var(--shadow-color);
+  border: 1px solid rgba(139, 92, 246, 0.05);
+}
+
+.admin-card h3 {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.3rem;
+}
+
+/* Table Styling */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.admin-table th, .admin-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(139, 92, 246, 0.08);
+}
+
+.admin-table th {
+  font-weight: 800;
+  color: #64748B;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+.admin-table td {
+  font-size: 0.92rem;
+  color: var(--dark-text);
+  vertical-align: middle;
+}
+
+/* Status Pills */
+.status-pill {
+  padding: 0.25rem 0.8rem;
+  border-radius: 99px;
+  font-weight: 800;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+.status-pending {
+  background-color: rgba(251, 191, 36, 0.1);
+  color: #D97706;
+}
+
+.status-payment_submitted, .status-verifying {
+  background-color: rgba(59, 130, 246, 0.1);
+  color: #2563EB;
+}
+
+.status-paid {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: #059669;
+}
+
+.status-failed, .status-cancelled {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #DC2626;
+}
+
+.status-refunded {
+  background-color: rgba(107, 114, 128, 0.1);
+  color: #4B5563;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .admin-layout {
+    flex-direction: column;
+  }
+  .admin-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 2px solid rgba(139, 92, 246, 0.1);
+    padding: 1rem;
+  }
+  .admin-menu {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .admin-main-content {
+    padding: 1.5rem;
+  }
+  .analytics-stats-grid {
+    grid-template-columns: 1fr;
+  }
+}

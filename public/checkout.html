@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEXORA — Secure UPI Checkout 💳</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .step-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+    .step-header::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background-color: rgba(139, 92, 246, 0.1);
+      z-index: 1;
+      transform: translateY(-50%);
+    }
+    .step-node {
+      position: relative;
+      z-index: 2;
+      width: 36px;
+      height: 36px;
+      background-color: #E2E8F0;
+      color: #64748B;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.95rem;
+      border: 3px solid #fff;
+    }
+    .step-node.active {
+      background: var(--gradient-purple-pink);
+      color: #fff;
+    }
+    .step-node.completed {
+      background: var(--green);
+      color: #fff;
+    }
+    .checkout-step-content {
+      display: none;
+    }
+    .checkout-step-content.active {
+      display: block;
+    }
+    .warning-box {
+      background-color: rgba(251, 191, 36, 0.08);
+      border: 1.5px solid rgba(251, 191, 36, 0.3);
+      padding: 1rem;
+      border-radius: 12px;
+      margin-top: 1rem;
+      font-size: 0.88rem;
+      color: #D97706;
+      font-weight: 600;
+    }
+    .error-box {
+      background-color: rgba(239, 68, 68, 0.08);
+      border: 1.5px solid rgba(239, 68, 68, 0.3);
+      padding: 1.2rem;
+      border-radius: 16px;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .error-box h3 {
+      color: #DC2626;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body style="background-color: var(--light-bg);">
+
+  <!-- Simple Header -->
+  <header style="padding: 1rem 0;">
+    <div class="nav-container">
+      <a href="/" class="logo" style="font-size: 1.5rem;">
+        <span>✨</span> NEXORA
+      </a>
+      <a href="/" class="btn-secondary" style="padding: 0.5rem 1.2rem; font-size: 0.9rem;">🏠 Back to Store</a>
+    </div>
+  </header>
+
+  <div class="checkout-container">
+    <div class="checkout-grid">
+      
+      <!-- Checkout Interactive Stepper Box -->
+      <div class="checkout-box">
+        
+        <!-- Step Nodes -->
+        <div class="step-header">
+          <div class="step-node active" id="step-node-1">1</div>
+          <div class="step-node" id="step-node-2">2</div>
+          <div class="step-node" id="step-node-3">3</div>
+        </div>
+
+        <!-- STEP 1: Billing Contact Info -->
+        <div class="checkout-step-content active" id="step-content-1">
+          <h2 class="checkout-title">📋 Billing Details</h2>
+          <form id="billing-form">
+            <div class="form-group">
+              <label for="cust-name">Your Full Name:</label>
+              <input type="text" id="cust-name" required placeholder="e.g. Yuvraj Singh">
+            </div>
+            <div class="form-group">
+              <label for="cust-email">Your Email Address:</label>
+              <input type="email" id="cust-email" required placeholder="e.g. yuvraj@gmail.com">
+            </div>
+            <div class="form-group">
+              <label for="cust-phone">WhatsApp Contact Number:</label>
+              <input type="tel" id="cust-phone" required placeholder="e.g. 9794142912">
+            </div>
+            <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; margin-top: 1.5rem;">
+              💳 CONTINUE TO PAYMENT
+            </button>
+          </form>
+        </div>
+
+        <!-- STEP 2: UPI QR Payment & UTR Entry -->
+        <div class="checkout-step-content" id="step-content-2">
+          <h2 class="checkout-title">💳 Complete UPI Payment</h2>
+          <p style="font-size: 0.9rem; color: #64748B; margin-bottom: 1rem;">
+            Scan the QR code below using any UPI app (GPay, PhonePe, Paytm) to transfer the exact amount, or copy our UPI ID.
+          </p>
+
+          <!-- Dynamic QR code insertion -->
+          <div class="qr-code-box">
+            <img id="upi-qr-image" src="" alt="UPI Payment QR Code" class="qr-image">
+            <div style="font-size: 1.1rem; font-weight: 800; color: var(--purple); margin-bottom: 0.8rem;">
+              Payable Amount: <span id="payable-amount">₹0</span>
+            </div>
+            
+            <!-- UPI ID copy wrapper -->
+            <div class="upi-copy-container">
+              <span class="upi-text" id="upi-id-text">9794142912@fam</span>
+              <button class="btn-copy" onclick="copyUpiId()">📋 COPY UPI ID</button>
+            </div>
+          </div>
+
+          <form id="payment-form">
+            <div class="form-group">
+              <label for="utr-number" style="font-size: 0.95rem;">Enter 12-Digit UPI Transaction ID / UTR Number:</label>
+              <input type="text" id="utr-number" required placeholder="e.g. 612345678901" pattern="[a-zA-Z0-9]{6,16}" title="UTR must be 6-16 characters long">
+            </div>
+            
+            <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; margin-top: 1.2rem;">
+              ✅ SUBMIT PAYMENT DETAILS
+            </button>
+          </form>
+
+          <div class="warning-box">
+            Your order will be processed after payment verification. Never submit the same transaction ID twice.
+          </div>
+          
+          <div style="margin-top: 1.5rem; text-align: center;">
+            <a id="checkout-whatsapp-btn" href="#" target="_blank" class="btn-secondary" style="justify-content: center; font-size: 0.9rem; border-color: #25D366; color: #25D366;">
+              💚 ASK SUPPORT ON WHATSAPP
+            </a>
+          </div>
+        </div>
+
+        <!-- STEP 3: Verification & Processing -->
+        <div class="checkout-step-content" id="step-content-3">
+          <h2 class="checkout-title">⏳ Verifying Payment...</h2>
+          <div style="text-align: center; padding: 2rem 1rem;">
+            <div style="font-size: 4rem; animation: float 2s infinite alternate;">💸</div>
+            <h3 style="font-weight: 800; font-size: 1.3rem; margin-top: 1rem; color: var(--purple);">
+              Order ID: <span id="display-order-id">NEX-XXXX</span>
+            </h3>
+            <p style="color: #64748B; margin-top: 0.5rem; font-size: 0.95rem;">
+              We are verifying your transaction ID. Do not close this page. The system will refresh automatically once verified.
+            </p>
+            
+            <!-- Loader -->
+            <div style="margin: 2rem auto; width: 50px; height: 50px; border: 5px solid rgba(139, 92, 246, 0.1); border-radius: 50%; border-top-color: var(--purple); animation: spin 1s linear infinite;"></div>
+
+            <!-- Error fallback card -->
+            <div id="payment-error-card" style="display: none;" class="error-box">
+              <h3>⚠️ PAYMENT COULD NOT BE VERIFIED</h3>
+              <p style="font-size: 0.9rem; color: #475569; margin-bottom: 1.2rem;">
+                We could not confirm this transaction. Please verify UTR number details or contact support.
+              </p>
+              <a id="error-whatsapp-btn" href="#" target="_blank" class="btn-whatsapp" style="justify-content: center; font-size: 0.95rem;">
+                💬 CONTACT NEXORA
+              </a>
+            </div>
+
+            <!-- Test Mode Panel -->
+            <div id="test-mode-panel" style="display: none; margin: 1.5rem auto; padding: 1.25rem; background: rgba(139, 92, 246, 0.05); border: 2px dashed #8B5CF6; border-radius: 12px; max-width: 400px; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.1);">
+              <p style="font-size: 0.85rem; color: #8B5CF6; font-weight: 800; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; justify-content: center; gap: 0.4rem;">
+                🧪 TEST / SANDBOX MODE
+              </p>
+              <p style="font-size: 0.85rem; color: #64748B; margin-bottom: 1.2rem; line-height: 1.4;">
+                To bypass manual admin payment verification in this test environment, click the button below to simulate payment success.
+              </p>
+              <button onclick="simulateTestPaymentSuccess()" class="btn-primary" style="margin: 0 auto; width: 100%; justify-content: center; font-size: 0.9rem; background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);">
+                ⚡ SIMULATE PAYMENT SUCCESS
+              </button>
+            </div>
+
+            <button onclick="checkOrderStatus()" class="btn-secondary" style="margin: 0 auto; justify-content: center; font-size: 0.9rem;">
+              🔄 CHECK PAYMENT STATUS MANUALLY
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Order Summary Card -->
+      <div class="checkout-box" style="height: fit-content;">
+        <h2 class="checkout-title" style="font-size: 1.3rem;">🛒 Your Order Summary</h2>
+        <div id="summary-items">
+          <!-- Items filled dynamically -->
+        </div>
+
+        <div class="order-totals">
+          <div class="order-item-row" style="color: #64748B; font-weight: normal;">
+            <span>Subtotal:</span>
+            <span id="summary-subtotal">₹0</span>
+          </div>
+          <div class="order-item-row" style="color: #64748B; font-weight: normal;" id="summary-discount-row">
+            <span>Discount:</span>
+            <span id="summary-discount">-₹0</span>
+          </div>
+          <div class="order-item-row" style="font-size: 1.15rem; font-weight: 800; color: var(--dark-text); margin-top: 0.5rem;">
+            <span>Final Amount:</span>
+            <span id="summary-total">₹0</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer style="padding: 3rem 1.5rem 1.5rem; background-color: #0F172A; text-align: center; color: #64748B; font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 5rem;">
+    <div>© 2026 NEXORA ✨ All Rights Reserved.</div>
+    <div style="margin-top: 0.5rem;">Secure payments processed via standard UPI deep links.</div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- Stepper Page Logic -->
+  <script>
+    let checkoutCart = [];
+    let currentOrder = null;
+    let checkInterval = null;
+
+    let paymentMode = 'production'; // default safety
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadCartSummary();
+      setupStepListeners();
+      checkPaymentMode();
+    });
+
+    function loadCartSummary() {
+      const cartData = localStorage.getItem('nexora_checkout_cart') || localStorage.getItem('nexora_cart');
+      if (!cartData) {
+        showToast('⚠️ No items in cart!');
+        setTimeout(() => { window.location.href = '/'; }, 2000);
+        return;
+      }
+      
+      try {
+        checkoutCart = JSON.parse(cartData);
+      } catch (e) {
+        checkoutCart = [];
+      }
+
+      if (checkoutCart.length === 0) {
+        showToast('⚠️ No items in cart!');
+        setTimeout(() => { window.location.href = '/'; }, 2000);
+        return;
+      }
+
+      const container = document.getElementById('summary-items');
+      container.innerHTML = '';
+      
+      let subtotal = 0;
+      checkoutCart.forEach(item => {
+        subtotal += item.price * item.quantity;
+        const selectionText = item.selection && item.selection.length > 0 
+          ? `<div style="font-size: 0.75rem; color:#64748B; margin-top: 0.2rem;">Chosen: ${item.selection.join(', ')}</div>`
+          : '';
+
+        container.insertAdjacentHTML('beforeend', `
+          <div style="padding: 1rem 0; border-bottom: 1px dashed rgba(139, 92, 246, 0.08);">
+            <div class="order-item-row" style="margin-bottom: 0.2rem;">
+              <span>${item.title}</span>
+              <span>₹${item.price * item.quantity}</span>
+            </div>
+            <div style="font-size: 0.8rem; color:#64748B;">Qty: ${item.quantity} x ₹${item.price}</div>
+            ${selectionText}
+          </div>
+        `);
+      });
+
+      document.getElementById('summary-subtotal').textContent = `₹${subtotal}`;
+      
+      // Calculate final total based on discount percent (if any)
+      fetch('/api/settings')
+        .then(r => r.json())
+        .then(settings => {
+          const discountPct = parseFloat(settings.offers_discount_percentage) || 0;
+          const discountAmt = Math.round(subtotal * (discountPct / 100));
+          const finalAmt = subtotal - discountAmt;
+
+          if (discountAmt > 0) {
+            document.getElementById('summary-discount-row').style.display = 'flex';
+            document.getElementById('summary-discount').textContent = `-₹${discountAmt}`;
+          } else {
+            document.getElementById('summary-discount-row').style.display = 'none';
+          }
+          
+          document.getElementById('summary-total').textContent = `₹${finalAmt}`;
+        })
+        .catch(err => {
+          document.getElementById('summary-total').textContent = `₹${subtotal}`;
+        });
+    }
+
+    function setupStepListeners() {
+      // Billing details form
+      const billingForm = document.getElementById('billing-form');
+      billingForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const customer_name = document.getElementById('cust-name').value;
+        const customer_email = document.getElementById('cust-email').value;
+        const customer_phone = document.getElementById('cust-phone').value;
+
+        // Post order creation to API
+        try {
+          const response = await fetch('/api/orders', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              customer_name,
+              customer_email,
+              customer_phone,
+              items: checkoutCart.map(i => ({ slug: i.slug, quantity: i.quantity, selection: i.selection }))
+            })
+          });
+          
+          const result = await response.json();
+          if (response.ok) {
+            currentOrder = result;
+            
+            // Advance to Step 2
+            goToStep(2);
+            populateStep2UI();
+          } else {
+            showToast(`⚠️ ${result.error || 'Failed to create order'}`);
+          }
+        } catch (err) {
+          showToast('⚠️ Error connecting to server.');
+        }
+      });
+
+      // UTR payment submit form
+      const paymentForm = document.getElementById('payment-form');
+      paymentForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const utr = document.getElementById('utr-number').value;
+
+        try {
+          const response = await fetch(`/api/orders/${currentOrder.orderId}/submit-payment`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ utr })
+          });
+          
+          const result = await response.json();
+          if (response.ok) {
+            goToStep(3);
+            document.getElementById('display-order-id').textContent = currentOrder.orderId;
+            
+            // Clear cart from storage upon submission
+            localStorage.removeItem('nexora_checkout_cart');
+            localStorage.removeItem('nexora_cart');
+
+            // Start polling status
+            startStatusChecking();
+          } else {
+            showToast(`⚠️ ${result.error || 'Verification submission failed'}`);
+          }
+        } catch (err) {
+          showToast('⚠️ Server connection failed.');
+        }
+      });
+    }
+
+    function goToStep(step) {
+      document.querySelectorAll('.checkout-step-content').forEach(s => s.classList.remove('active'));
+      document.getElementById(`step-content-${step}`).classList.add('active');
+
+      document.querySelectorAll('.step-node').forEach((node, idx) => {
+        if (idx + 1 < step) {
+          node.className = 'step-node completed';
+          node.innerHTML = '✓';
+        } else if (idx + 1 === step) {
+          node.className = 'step-node active';
+          node.innerHTML = step;
+        } else {
+          node.className = 'step-node';
+          node.innerHTML = idx + 1;
+        }
+      });
+    }
+
+    function populateStep2UI() {
+      document.getElementById('upi-qr-image').src = currentOrder.upiQrCode;
+      document.getElementById('payable-amount').textContent = `₹${currentOrder.totalAmount}`;
+      document.getElementById('upi-id-text').textContent = currentOrder.upiId;
+
+      // Populate WhatsApp button
+      const itemsList = currentOrder.items.map(i => `${i.title} (Qty: ${i.quantity})`).join(', ');
+      const text = encodeURIComponent(
+        `Hello! 👋 I have placed an order on NEXORA.\n\n` +
+        `Order ID: ${currentOrder.orderId}\n` +
+        `Items: ${itemsList}\n` +
+        `Amount: ₹${currentOrder.totalAmount}\n` +
+        `UPI ID: ${currentOrder.upiId}\n\n` +
+        `Please verify my payment and release the downloads.`
+      );
+      document.getElementById('checkout-whatsapp-btn').href = `https://wa.me/91979414912?text=${text}`;
+    }
+
+    function startStatusChecking() {
+      if (checkInterval) clearInterval(checkInterval);
+      
+      // Poll every 5 seconds
+      checkInterval = setInterval(checkOrderStatus, 5000);
+    }
+
+    async function checkOrderStatus() {
+      if (!currentOrder) return;
+
+      try {
+        const response = await fetch(`/api/orders/${currentOrder.orderId}`);
+        const order = await response.json();
+        
+        if (order.payment_status === 'PAID') {
+          clearInterval(checkInterval);
+          showToast('🎉 Payment verified successfully!');
+          setTimeout(() => {
+            window.location.href = `/order.html?id=${order.id}`;
+          }, 1500);
+        } else if (order.payment_status === 'FAILED') {
+          clearInterval(checkInterval);
+          showPaymentError();
+        }
+      } catch (err) {
+        console.error('Error checking order status:', err);
+      }
+    }
+
+    function showPaymentError() {
+      document.getElementById('payment-error-card').style.display = 'block';
+      const text = encodeURIComponent(
+        `Hello support! ⚠️ My payment verification failed for Order: ${currentOrder.orderId}.\n\n` +
+        `Amount: ₹${currentOrder.totalAmount}\n` +
+        `Please help resolve this issue. Thank you!`
+      );
+      document.getElementById('error-whatsapp-btn').href = `https://wa.me/91979414912?text=${text}`;
+    }
+
+    function copyUpiId() {
+      const upiId = document.getElementById('upi-id-text').textContent;
+      navigator.clipboard.writeText(upiId).then(() => {
+        showToast('📋 UPI ID copied to clipboard!');
+      }).catch(err => {
+        showToast('⚠️ Failed to copy. Copy manually.');
+      });
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => { toast.classList.remove('show'); }, 3000);
+    }
+
+    async function checkPaymentMode() {
+      try {
+        const response = await fetch('/api/payment-mode');
+        if (response.ok) {
+          const data = await response.json();
+          paymentMode = data.paymentMode;
+          if (paymentMode === 'test') {
+            document.getElementById('test-mode-panel').style.display = 'block';
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching payment mode:', err);
+      }
+    }
+
+    async function simulateTestPaymentSuccess() {
+      if (!currentOrder) return;
+      showToast('🧪 Simulating payment verification...');
+      try {
+        const response = await fetch(`/api/orders/${currentOrder.orderId}/simulate-payment-success`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' }
+        });
+        const result = await response.json();
+        
+        if (response.ok && result.success) {
+          clearInterval(checkInterval);
+          showToast('🎉 Test Payment Verified!');
+          setTimeout(() => {
+            window.location.href = `/order.html?id=${currentOrder.orderId}`;
+          }, 1500);
+        } else {
+          showToast(`⚠️ ${result.error || 'Simulation failed'}`);
+        }
+      } catch (err) {
+        showToast('⚠️ Error simulating payment.');
+      }
+    }
+
+    // Animation spin keyframe injection
+    const style = document.createElement('style');
+    style.innerHTML = `
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>

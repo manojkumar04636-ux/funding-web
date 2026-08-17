@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEXORA — Admin Console Dashboard 🛠️</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body style="background-color: var(--light-bg); display: none;" id="admin-body">
+
+  <!-- Admin Navigation Header -->
+  <header style="padding: 0.8rem 0; border-bottom: 2px solid rgba(139, 92, 246, 0.15);">
+    <div class="nav-container">
+      <div class="logo">
+        <span>✨</span> NEXORA <span style="font-size: 0.8rem; background: rgba(139,92,246,0.1); color: var(--purple); padding: 0.2rem 0.6rem; border-radius: 99px; font-weight:700;">ADMIN</span>
+      </div>
+      
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <span style="font-size: 0.9rem; font-weight: 700; color: #64748B;">Welcome, <span id="admin-username">Admin</span> 👨‍💻</span>
+        <button class="btn-secondary" onclick="adminLogout()" style="padding: 0.4rem 1rem; font-size: 0.85rem;">Logout 🚪</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Admin Sidebar & Main Content Wrapper -->
+  <div class="admin-layout">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar">
+      <ul class="admin-menu">
+        <li class="menu-item active" onclick="switchTab('analytics')">📊 Analytics Overview</li>
+        <li class="menu-item" onclick="switchTab('orders')">📥 Manage Orders <span class="badge" id="pending-badge" style="display:none;">0</span></li>
+        <li class="menu-item" onclick="switchTab('products')">🛍️ Manage Products</li>
+        <li class="menu-item" onclick="switchTab('settings')">⚙️ Store Settings</li>
+        <li class="menu-item" onclick="switchTab('reviews')">❤️ Manage Reviews</li>
+        <li class="menu-item" onclick="switchTab('logs')">📜 View System Logs</li>
+        <li class="menu-item" onclick="switchTab('security')">🔒 Admin Security</li>
+      </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="admin-main-content">
+      
+      <!-- TAB: ANALYTICS OVERVIEW -->
+      <section class="admin-tab active" id="tab-analytics">
+        <h2 class="tab-title">📊 Store Analytics Dashboard</h2>
+        
+        <!-- Summary Stats Grid -->
+        <div class="analytics-stats-grid">
+          <div class="stat-card" style="border-radius: 16px;">
+            <div class="stat-val" id="stat-revenue" style="color:var(--green);">₹0</div>
+            <div class="stat-label">Total Verified Revenue</div>
+          </div>
+          <div class="stat-card" style="border-radius: 16px;">
+            <div class="stat-val" id="stat-orders-count">0</div>
+            <div class="stat-label">Paid Orders Verified</div>
+          </div>
+          <div class="stat-card" style="border-radius: 16px;">
+            <div class="stat-val" id="stat-pending-count" style="color:var(--orange);">0</div>
+            <div class="stat-label">Pending / Unverified Orders</div>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; margin-top: 2.5rem;">
+          
+          <!-- Recent Orders Log -->
+          <div class="admin-card">
+            <h3>Recent Sales Logs</h3>
+            <div style="overflow-x: auto; margin-top: 1rem;">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="recent-orders-list">
+                  <!-- Filled dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Popular Bundles List -->
+          <div class="admin-card">
+            <h3>🔥 Popular Bundles Sold</h3>
+            <div id="popular-bundles-list" style="margin-top: 1rem;">
+              <!-- Filled dynamically -->
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- TAB: MANAGE ORDERS -->
+      <section class="admin-tab" id="tab-orders">
+        <h2 class="tab-title">📥 Customer Orders Manager</h2>
+        
+        <div class="admin-card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem;">
+            <h3>Transactions List</h3>
+            <input type="text" id="order-search" placeholder="Search by Order ID, UTR or Name..." oninput="filterOrdersTable()" style="max-width:300px; padding:0.5rem 1rem; border-radius:8px; border:1px solid rgba(139,92,246,0.2);">
+          </div>
+          
+          <div style="overflow-x: auto;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer Details</th>
+                  <th>Purchased Bundles</th>
+                  <th>Amount</th>
+                  <th>UTR / Transaction ID</th>
+                  <th>Status</th>
+                  <th>Download Status</th>
+                  <th>Purchase Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="all-orders-list">
+                <!-- Filled dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB: MANAGE PRODUCTS -->
+      <section class="admin-tab" id="tab-products">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 2rem;">
+          <h2 class="tab-title" style="margin-bottom:0;">🛍️ Store Products Manager</h2>
+          <button class="btn-primary" onclick="openProductModal('add')" style="padding:0.6rem 1.2rem; font-size:0.9rem;">➕ Add New Product</button>
+        </div>
+
+        <div class="admin-card">
+          <div style="overflow-x: auto;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Slug</th>
+                  <th>Title</th>
+                  <th>Category</th>
+                  <th>Quantity Text</th>
+                  <th>Price</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-products-list">
+                <!-- Filled dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB: STORE CONFIGURATION SETTINGS -->
+      <section class="admin-tab" id="tab-settings">
+        <h2 class="tab-title">⚙️ Global Store Settings</h2>
+        
+        <div class="admin-card" style="max-width:650px;">
+          <h3>Update Configurations</h3>
+          <form id="admin-settings-form" style="margin-top: 1.5rem;">
+            <div class="form-group">
+              <label for="set-upi-id">Merchant UPI ID (for checkout payments):</label>
+              <input type="text" id="set-upi-id" required>
+            </div>
+            <div class="form-group">
+              <label for="set-wa-num">Support WhatsApp Contact Number (without country prefix):</label>
+              <input type="text" id="set-wa-num" required>
+            </div>
+            <div class="form-group">
+              <label for="set-banner">Announcement Banner Message:</label>
+              <input type="text" id="set-banner" required>
+            </div>
+            <div class="form-group">
+              <label for="set-discount">Global Discount Offer Percentage (%):</label>
+              <input type="number" id="set-discount" min="0" max="100" required>
+            </div>
+            
+            <button type="submit" class="btn-primary" style="margin-top: 1rem;">💾 SAVE SETTINGS</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- TAB: MANAGE REVIEWS -->
+      <section class="admin-tab" id="tab-reviews">
+        <h2 class="tab-title">❤️ Creator Feedback Approvals</h2>
+        
+        <div class="admin-card">
+          <h3>Customer Reviews Submission List</h3>
+          <div style="overflow-x: auto; margin-top: 1.5rem;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Customer Name</th>
+                  <th>Rating</th>
+                  <th>Review Description</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-reviews-list">
+                <!-- Filled dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB: SYSTEM LOGS -->
+      <section class="admin-tab" id="tab-logs">
+        <h2 class="tab-title">📜 Audit & Download Logs</h2>
+        
+        <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; margin-top: 1.5rem;">
+          <!-- Download Logs Card -->
+          <div class="admin-card">
+            <h3>📥 Customer Download History</h3>
+            <div style="overflow-x: auto; margin-top: 1rem; max-height: 450px;">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Product</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="download-logs-list">
+                  <!-- Filled dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Admin Logs Card -->
+          <div class="admin-card">
+            <h3>🔒 Admin Actions Log</h3>
+            <div style="overflow-x: auto; margin-top: 1rem; max-height: 450px;">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Admin</th>
+                    <th>Order ID</th>
+                    <th>Action</th>
+                    <th>Timestamp</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-logs-list">
+                  <!-- Filled dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB: ADMIN SECURITY -->
+      <section class="admin-tab" id="tab-security">
+        <h2 class="tab-title">🔒 Change Admin Password</h2>
+        
+        <div class="admin-card" style="max-width: 500px;">
+          <h3>Update Admin Console Password</h3>
+          <form id="admin-password-form" style="margin-top: 1.5rem;">
+            <div class="form-group">
+              <label for="cur-pass">Current Password:</label>
+              <input type="password" id="cur-pass" required autocomplete="current-password">
+            </div>
+            <div class="form-group">
+              <label for="new-pass">New Password:</label>
+              <input type="password" id="new-pass" required autocomplete="new-password">
+            </div>
+            
+            <button type="submit" class="btn-primary" style="margin-top: 1rem;">🔒 UPDATE PASSWORD</button>
+          </form>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- PRODUCT CRUD MODAL -->
+  <div class="modal-backdrop" id="modal-backdrop"></div>
+  
+  <div class="product-modal" id="product-modal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); width:90%; max-width:600px; background:#fff; border-radius:24px; box-shadow:0 20px 50px rgba(0,0,0,0.15); z-index:1005; padding:2rem; max-height:85vh; overflow-y:auto;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; border-bottom:2px solid rgba(139,92,246,0.08); padding-bottom:0.8rem;">
+      <h3 id="product-modal-title" style="font-family:var(--font-heading); font-weight:800; font-size:1.3rem;">🛍️ Add Product</h3>
+      <button class="cart-close" onclick="closeProductModal()" style="font-size:1.5rem; background:none; border:none; cursor:pointer;">✖</button>
+    </div>
+    
+    <form id="product-crud-form">
+      <input type="hidden" id="crud-id">
+      
+      <div class="form-group">
+        <label for="crud-slug">Slug (Unique url label):</label>
+        <input type="text" id="crud-slug" required placeholder="e.g. funny-reels">
+      </div>
+      <div class="form-group">
+        <label for="crud-title">Product Title:</label>
+        <input type="text" id="crud-title" required placeholder="e.g. 😂 Funny Reels">
+      </div>
+      <div class="form-group">
+        <label for="crud-desc">Description Details:</label>
+        <textarea id="crud-desc" rows="3" placeholder="Explain details of content bundles..."></textarea>
+      </div>
+      <div class="form-group">
+        <label for="crud-price">Price (₹ INR):</label>
+        <input type="number" id="crud-price" required placeholder="e.g. 149">
+      </div>
+      <div class="form-group">
+        <label for="crud-orig-price">Original Price (₹ INR):</label>
+        <input type="number" id="crud-orig-price" placeholder="e.g. 299">
+      </div>
+      <div class="form-group">
+        <label for="crud-qty">Quantity Label text:</label>
+        <input type="text" id="crud-qty" placeholder="e.g. 1,400+ Funny Reels">
+      </div>
+      <div class="form-group">
+        <label for="crud-category">Category Type:</label>
+        <select id="crud-category" required>
+          <option value="Reels">Reels</option>
+          <option value="Packages">Packages</option>
+          <option value="Ebooks">Ebooks</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="crud-license">License terms details:</label>
+        <input type="text" id="crud-license" placeholder="e.g. Creator License">
+      </div>
+      <div class="form-group">
+        <label for="crud-sort">Sorting Index Order:</label>
+        <input type="number" id="crud-sort" placeholder="e.g. 10">
+      </div>
+      <div class="form-group">
+        <label for="crud-img">Image URL link:</label>
+        <input type="text" id="crud-img" placeholder="e.g. /images/funny.png">
+      </div>
+      <div class="form-group">
+        <label for="crud-file-upload">Upload Digital File (.ZIP/.PDF):</label>
+        <input type="file" id="crud-file-upload">
+        <div style="font-size:0.75rem; color:#64748B; margin-top:0.2rem;" id="crud-file-display"></div>
+      </div>
+
+      <!-- SECTION: DIGITAL DOWNLOAD -->
+      <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 2px solid rgba(139,92,246,0.08);">
+        <h4 style="font-family:var(--font-heading); font-weight:800; font-size:1.1rem; color:var(--purple); margin-bottom:1rem; display:flex; align-items:center; gap:0.4rem;">
+          📥 DIGITAL DOWNLOAD SETTINGS
+        </h4>
+        <div class="form-group">
+          <label for="crud-drive-url">Google Drive Download Link:</label>
+          <input type="text" id="crud-drive-url" placeholder="https://drive.google.com/file/d/.../view?usp=sharing">
+        </div>
+        <div style="display: flex; gap: 1rem; align-items: center; margin-top: 0.5rem; margin-bottom: 1rem;">
+          <button type="button" class="btn-secondary" onclick="testDownloadLink()" style="font-size:0.8rem; padding:0.4rem 0.8rem;">
+            🔍 TEST DOWNLOAD LINK
+          </button>
+          <span id="test-link-result" style="font-size:0.85rem; font-weight:bold;"></span>
+        </div>
+        <div class="form-group">
+          <label for="crud-download-status">Download Status:</label>
+          <select id="crud-download-status">
+            <option value="NOT CONFIGURED">NOT CONFIGURED</option>
+            <option value="READY">READY</option>
+            <option value="DISABLED">DISABLED</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="crud-drive-file-id">Optional Google Drive File ID:</label>
+          <input type="text" id="crud-drive-file-id" placeholder="e.g. 1a2b3c4d5e...">
+        </div>
+        <div class="form-group">
+          <label for="crud-drive-folder-id">Optional Google Drive Folder ID:</label>
+          <input type="text" id="crud-drive-folder-id" placeholder="e.g. 1f2g3h4i5j...">
+        </div>
+        <button type="button" class="btn-primary" onclick="saveDownloadSettings()" style="margin-top:0.8rem; background:var(--purple); padding:0.5rem 1rem; font-size:0.85rem; width: auto; display: inline-flex;">
+          💾 SAVE DOWNLOAD SETTINGS
+        </button>
+      </div>
+      
+      <button type="submit" class="btn-primary" style="width:100%; justify-content:center; margin-top:1.5rem;">💾 SAVE PRODUCT DETAILS</button>
+    </form>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- Admin Panel Scripts -->
+  <script src="/js/admin.js"></script>
+</body>
+</html>
