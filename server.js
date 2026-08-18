@@ -19,7 +19,7 @@ const PAYMENT_MODE = process.env.PAYMENT_MODE || 'test';
 // Ensure uploads folder exists
 const uploadsDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir);
+  // fs.mkdirSync(uploadsDir);
 }
 
 // Ensure images folder exists in public
@@ -123,7 +123,7 @@ app.post('/api/reviews', (req, res) => {
 
   const today = new Date().toISOString().split('T')[0];
   const stmt = db.prepare('INSERT INTO reviews (customer_name, rating, review_text, date, status) VALUES (?, ?, ?, ?, ?)');
-  stmt.run([customer_name, ratingInt, review_text, today, 'PENDING'], function(err) {
+  stmt.run([customer_name, ratingInt, review_text, today, 'PENDING'], function (err) {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -214,7 +214,7 @@ app.post('/api/orders', (req, res) => {
             VALUES (?, ?, ?, ?, ?, ?, 'PENDING', NULL)
           `);
 
-          stmt.run([orderId, customer_name, customer_email, customer_phone, itemsJson, finalAmount], function(err) {
+          stmt.run([orderId, customer_name, customer_email, customer_phone, itemsJson, finalAmount], function (err) {
             if (err) {
               return res.status(500).json({ error: err.message });
             }
@@ -282,7 +282,7 @@ app.post('/api/orders/:id/submit-payment', (req, res) => {
       db.run(
         "UPDATE orders SET payment_status = 'PAYMENT_SUBMITTED', utr = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
         [cleanUtr, orderId],
-        function(updateErr) {
+        function (updateErr) {
           if (updateErr) {
             return res.status(500).json({ error: updateErr.message });
           }
@@ -366,7 +366,7 @@ app.post('/api/orders/:id/simulate-payment-success', (req, res) => {
     db.run(
       "UPDATE orders SET payment_status = 'PAID', updated_at = CURRENT_TIMESTAMP WHERE id = ?",
       [orderId],
-      function(updateErr) {
+      function (updateErr) {
         if (updateErr) {
           return res.status(500).json({ error: updateErr.message });
         }
@@ -626,7 +626,7 @@ app.post('/api/admin/orders/:id/status', requireAdmin, (req, res) => {
   db.run(
     'UPDATE orders SET payment_status = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
     [status, orderId],
-    function(err) {
+    function (err) {
       if (err) {
         return res.status(500).json({ error: err.message });
       }
@@ -675,7 +675,7 @@ app.post('/api/admin/products/:id/download-settings', requireAdmin, (req, res) =
     google_drive_file_id || '',
     google_drive_folder_id || '',
     prodId
-  ], function(err) {
+  ], function (err) {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -705,8 +705,8 @@ app.get('/api/admin/logs', requireAdmin, (req, res) => {
 app.post('/api/admin/orders/:id/revoke-download', requireAdmin, (req, res) => {
   const orderId = req.params.id;
   const adminUser = req.session.adminUser || 'admin';
-  
-  db.run('UPDATE orders SET download_revoked = 1 WHERE id = ?', [orderId], function(err) {
+
+  db.run('UPDATE orders SET download_revoked = 1 WHERE id = ?', [orderId], function (err) {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -722,8 +722,8 @@ app.post('/api/admin/orders/:id/revoke-download', requireAdmin, (req, res) => {
 app.post('/api/admin/orders/:id/restore-download', requireAdmin, (req, res) => {
   const orderId = req.params.id;
   const adminUser = req.session.adminUser || 'admin';
-  
-  db.run('UPDATE orders SET download_revoked = 0 WHERE id = ?', [orderId], function(err) {
+
+  db.run('UPDATE orders SET download_revoked = 0 WHERE id = ?', [orderId], function (err) {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -768,7 +768,7 @@ app.post('/api/admin/products', requireAdmin, upload.single('digital_file'), (re
     download_status || 'NOT CONFIGURED',
     google_drive_file_id || '',
     google_drive_folder_id || ''
-  ], function(err) {
+  ], function (err) {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -814,7 +814,7 @@ app.put('/api/admin/products/:id', requireAdmin, upload.single('digital_file'), 
       google_drive_file_id || '',
       google_drive_folder_id || '',
       prodId
-    ], function(updateErr) {
+    ], function (updateErr) {
       if (updateErr) {
         return res.status(500).json({ error: updateErr.message });
       }
@@ -827,7 +827,7 @@ app.put('/api/admin/products/:id', requireAdmin, upload.single('digital_file'), 
 app.delete('/api/admin/products/:id', requireAdmin, (req, res) => {
   const prodId = req.params.id;
 
-  db.run('DELETE FROM products WHERE id = ?', [prodId], function(err) {
+  db.run('DELETE FROM products WHERE id = ?', [prodId], function (err) {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -854,7 +854,7 @@ app.post('/api/admin/reviews/:id/status', requireAdmin, (req, res) => {
     return res.status(400).json({ error: 'Invalid review status' });
   }
 
-  db.run('UPDATE reviews SET status = ? WHERE id = ?', [status, reviewId], function(err) {
+  db.run('UPDATE reviews SET status = ? WHERE id = ?', [status, reviewId], function (err) {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -866,6 +866,10 @@ app.post('/api/admin/reviews/:id/status', requireAdmin, (req, res) => {
 // Handled by generic settings update endpoint but we can add individual options in the UI
 
 // Start Server
-app.listen(PORT, () => {
-  console.log(`Server is running at http://localhost:${PORT}`);
-});
+if (process.env.NODE_ENV !== 'production' && require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server is running at http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;
