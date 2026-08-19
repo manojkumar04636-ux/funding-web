@@ -1,5 +1,5 @@
 const express = require('express');
-const session = require('express-session');
+const session = require('cookie-session');
 const path = require('path');
 const fs = require('fs');
 const bcrypt = require('bcryptjs');
@@ -52,15 +52,11 @@ const upload = multer({ storage: storage });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Session setup
+// Session setup (using stateless cookie-session for Vercel Serverless environment compatibility)
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'nexora_creator_universe_secret_key_150k',
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: false, // Set to true in HTTPS
-    maxAge: 24 * 60 * 60 * 1000 // 24 Hours
-  }
+  name: 'nexora_session',
+  keys: [process.env.SESSION_SECRET || 'nexora_creator_universe_secret_key_150k_9794142912_fam'],
+  maxAge: 24 * 60 * 60 * 1000 // 24 Hours
 }));
 
 // Serves static frontend files
@@ -505,12 +501,8 @@ app.get('/api/admin/status', (req, res) => {
 
 // Admin Logout
 app.post('/api/admin/logout', (req, res) => {
-  req.session.destroy(err => {
-    if (err) {
-      return res.status(500).json({ error: 'Failed to log out' });
-    }
-    res.json({ success: true });
-  });
+  req.session = null;
+  res.json({ success: true });
 });
 
 // Change Admin Password
