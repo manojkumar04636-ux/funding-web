@@ -4,3 +4,5 @@ nexora.db
 .gemini/
 *.log
 uploads/
+
+.vercel

@@ -18,14 +18,22 @@ const PAYMENT_MODE = process.env.PAYMENT_MODE || 'test';
 
 // Ensure uploads folder exists
 const uploadsDir = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadsDir)) {
-  // fs.mkdirSync(uploadsDir);
+try {
+  if (!fs.existsSync(uploadsDir)) {
+    // fs.mkdirSync(uploadsDir);
+  }
+} catch (err) {
+  console.warn("Could not check/create uploads directory:", err.message);
 }
 
 // Ensure images folder exists in public
 const publicImagesDir = path.join(__dirname, 'public', 'images');
-if (!fs.existsSync(publicImagesDir)) {
-  fs.mkdirSync(publicImagesDir, { recursive: true });
+try {
+  if (!fs.existsSync(publicImagesDir)) {
+    fs.mkdirSync(publicImagesDir, { recursive: true });
+  }
+} catch (err) {
+  console.warn("Could not check/create public/images directory:", err.message);
 }
 
 // Multer Storage Configuration for Admin Uploads
